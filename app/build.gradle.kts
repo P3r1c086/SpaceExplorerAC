@@ -89,6 +89,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
     // Hilt
     implementation("com.google.dagger:hilt-android:2.49")
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
     kapt("com.google.dagger:hilt-compiler:2.49")
     // Livedata
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
