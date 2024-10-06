@@ -12,13 +12,21 @@ java {
 }
 
 dependencies {
-    implementation(project(mapOf("path" to ":domain")))
-    implementation(project(mapOf("path" to ":data")))
+    implementation(project(":domain"))
+    implementation(project(":data"))
+    implementation(project(":testShared"))
 
     // Coroutines
     implementation(Libs.Kotlin.Coroutines.core)
+    // Corrutinas
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
     // Javax inject
     implementation(Libs.JavaX.inject)
+    implementation("javax.inject:javax.inject:1")
+    // Mockito
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
+    testImplementation("org.mockito:mockito-inline:5.2.0")
     //Test
     testImplementation(Libs.JUnit.junit)
 }

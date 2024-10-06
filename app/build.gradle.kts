@@ -63,9 +63,10 @@ android {
 }
 
 dependencies {
-    implementation(project(mapOf("path" to ":domain")))
-    implementation(project(mapOf("path" to ":usecases")))
-    implementation(project(mapOf("path" to ":data")))
+    implementation(project(":domain"))
+    implementation(project(":usecases"))
+    implementation(project(":data"))
+    implementation(project(":testShared"))
 
     //Core
     implementation(Libs.AndroidX.coreKtx)
@@ -95,9 +96,22 @@ dependencies {
     // Coroutines
     implementation(Libs.Kotlin.Coroutines.core)
     //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("androidx.activity:activity-ktx:1.8.2")
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    // Corrutinas
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
     // Hilt
     implementation(Libs.Hilt.android)
     kapt(Libs.Hilt.compiler)
+    implementation("com.google.dagger:hilt-android:2.49")
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    kapt("com.google.dagger:hilt-compiler:2.49")
+    // Livedata
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     // Retrofit
     implementation(Libs.Retrofit.retrofit)
     implementation(Libs.Retrofit.converterGson)
@@ -112,10 +126,29 @@ dependencies {
     kapt (Libs.Glide.compiler)
     // Shimmer
     implementation(Libs.Shimmer.shimmer)
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+    // Mockito
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    testImplementation("org.mockito:mockito-inline:4.8.0")
+    //Turbine
+    testImplementation("app.cash.turbine:turbine:0.12.1")
+    //Runner
+    implementation ("androidx.test:runner:1.5.2")
+    //Rules
+    implementation ("androidx.test:rules:1.5.0")
     //Test
     testImplementation(Libs.JUnit.junit)
     androidTestImplementation(Libs.AndroidX.Test.Ext.junit)
     androidTestImplementation(Libs.AndroidX.Test.Espresso.contrib)
+    testImplementation("junit:junit:4.13.2")
+    testImplementation(project(":testShared"))
+    testImplementation(project(":appTestShared"))
+    testImplementation(project(":data"))
+    testImplementation(project(":usecases"))
+    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+    androidTestImplementation(project(":appTestShared"))
+
 }
 
 // Allow references to generated code
