@@ -5,10 +5,18 @@ import es.architectcoders.domain.Photo
 
 internal val samplePhoto = Photo(
     "2023-01-01",
-    0,
+    "title",
+    "explanation",
     "https://example.com",
+    "https://example.com",
+    "mediaType",
+    "serviceType",
+    "type",
+    false,
     "1",
-    false
+    "imgsrc",
+    "id",
+    "earthDate"
 )
 
 internal val sampleNotificationsItem = NotificationsItem(
