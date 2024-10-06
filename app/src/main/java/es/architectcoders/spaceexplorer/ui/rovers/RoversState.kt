@@ -1,6 +1,7 @@
 package es.architectcoders.spaceexplorer.ui.rovers
 
 import android.Manifest
+import android.os.Build
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import es.architectcoders.spaceexplorer.ui.common.PermissionRequester
@@ -23,7 +24,11 @@ class RoversState(
     fun requestStoragePermission(afterRequest: (Boolean) -> Unit) {
         scope.launch {
             val result = storagePermissionRequester.request()
-            afterRequest(result)
+            if (Build.VERSION.SDK_INT <= 30){
+                afterRequest(result)
+            }else{
+                afterRequest(true)
+            }
         }
     }
 }
