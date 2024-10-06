@@ -19,7 +19,7 @@ private val roversRemoteDataSource: RoversRemoteDataSource){
             val rovers = roversRemoteDataSource.getRovers(
                 Calendar.getInstance().apply {
                     set(Calendar.DAY_OF_MONTH,
-                        Calendar.getInstance().get(Calendar.DAY_OF_MONTH) - 180)
+                        Calendar.getInstance().get(Calendar.DAY_OF_MONTH) - 360)
                 }
             )
             rovers.fold(ifLeft = { return it }) {
