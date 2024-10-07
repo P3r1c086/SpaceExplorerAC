@@ -7,20 +7,30 @@ import es.architectcoders.domain.Photo
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.Calendar
 import es.architectcoders.domain.Error
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 val samplePhoto = Photo(
-    "2023-01-01",
-    0,
-    "https://example.com",
-    "1",
-    false
+    date = "2023-01-01",
+    title = "Sample Photo",
+    explanation = "A sample photo explanation.",
+    hdurl = "https://example.com/hd",
+    url = "https://example.com",
+    mediaType = "image",
+    serviceVersion = "v1",
+    type = "photo",
+    favorite = false,
+    sol = "1",
+    imgSrc = "https://example.com/image.jpg",
+    id = "1",
+    earthDate = "2023-01-01"
 )
 
 val defaultFakePhotos = listOf(
-    samplePhoto.copy(id = 1),
-    samplePhoto.copy(id = 2),
-    samplePhoto.copy(id = 3),
-    samplePhoto.copy(id = 4)
+    samplePhoto.copy(id = "1"),
+    samplePhoto.copy(id = "2"),
+    samplePhoto.copy(id = "3"),
+    samplePhoto.copy(id = "4")
 )
 
 class FakeRoversLocalDataSource : RoversLocalDataSource {
@@ -29,6 +39,11 @@ class FakeRoversLocalDataSource : RoversLocalDataSource {
 
     override val getPhoto: MutableStateFlow<List<Photo>>
         get() = inMemoryPhotos
+
+    override val getFavoritePhoto: Flow<List<Photo>>
+        get() = inMemoryPhotos.map { photos ->
+            photos.filter { it.favorite }
+        }
 
     override suspend fun saveRovers(rovers: List<Photo>): Error? {
         inMemoryPhotos.value = rovers

@@ -12,7 +12,7 @@ class SaveRoversFavoriteUseCaseTest {
 
     @Test
     fun `Invoke calls rovers repository`(): Unit = runBlocking {
-        val photo = samplePhoto.copy(id = 1)
+        val photo = samplePhoto.copy(id = "1")
         val roversRepository = mock<RoversRepository>()
         val saveRoversFavoriteUseCase = SaveRoversFavoriteUseCase(roversRepository)
 

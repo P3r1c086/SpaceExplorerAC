@@ -6,8 +6,8 @@ import es.architectcoders.domain.NotificationsItem
 import es.architectcoders.spaceexplorer.testRules.CoroutinesTestRules
 import es.architectcoders.spaceexplorer.apptestshared.FakeNotificationsLocalDataSource
 import es.architectcoders.spaceexplorer.apptestshared.FakeNotificationsRemoteDataSource
-import es.architectcoders.spaceexplorer.ui.mars.MarsViewModel
 import es.architectcoders.spaceexplorer.apptestshared.sampleNotificationItem
+import es.architectcoders.spaceexplorer.ui.notifications.NotificationsViewModel
 import es.architectcoders.usecases.GetNotificationsUseCase
 import es.architectcoders.usecases.RequestNotificationsUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,10 +31,10 @@ class NotificationsIntegrationTest {
         )
 
         vm.state.test {
-            Assert.assertEquals(MarsViewModel.UiState(), awaitItem())
-            Assert.assertEquals(MarsViewModel.UiState(loading = true), awaitItem())
-            Assert.assertEquals(MarsViewModel.UiState(loading = false, error = null), awaitItem())
-            Assert.assertEquals(MarsViewModel.UiState(notificationsList = remoteData), awaitItem())
+            Assert.assertEquals(NotificationsViewModel.UiState(), awaitItem())
+            Assert.assertEquals(NotificationsViewModel.UiState(loading = true), awaitItem())
+            Assert.assertEquals(NotificationsViewModel.UiState(loading = false, error = null), awaitItem())
+            Assert.assertEquals(NotificationsViewModel.UiState(notificationsList = remoteData), awaitItem())
             cancelAndConsumeRemainingEvents()
         }
     }
@@ -49,22 +49,22 @@ class NotificationsIntegrationTest {
         )
 
         vm.state.test {
-            Assert.assertEquals(MarsViewModel.UiState(), awaitItem())
-            Assert.assertEquals(MarsViewModel.UiState(loading = true), awaitItem())
-            Assert.assertEquals(MarsViewModel.UiState(loading = false, error = null), awaitItem())
-            Assert.assertEquals(MarsViewModel.UiState(notificationsList = localData), awaitItem())
+            Assert.assertEquals(NotificationsViewModel.UiState(), awaitItem())
+            Assert.assertEquals(NotificationsViewModel.UiState(loading = true), awaitItem())
+            Assert.assertEquals(NotificationsViewModel.UiState(loading = false, error = null), awaitItem())
+            Assert.assertEquals(NotificationsViewModel.UiState(notificationsList = localData), awaitItem())
             cancelAndConsumeRemainingEvents()
         }
     }
     private fun buildViewModelWith(
         localData: List<NotificationsItem> = emptyList(),
         remoteData: List<NotificationsItem> = emptyList()
-    ): MarsViewModel {
+    ): NotificationsViewModel {
         val localDataSource = FakeNotificationsLocalDataSource().apply { inMemoryNotifications.value = localData }
         val remoteDataSource = FakeNotificationsRemoteDataSource().apply { notifications = remoteData }
         val notificationsRepository = NotificationsRepository(localDataSource, remoteDataSource)
         val getNotificationsUseCase = GetNotificationsUseCase(notificationsRepository)
         val requestNotificationsUseCase = RequestNotificationsUseCase(notificationsRepository)
-        return MarsViewModel(requestNotificationsUseCase, getNotificationsUseCase)
+        return NotificationsViewModel(requestNotificationsUseCase, getNotificationsUseCase)
     }
 }

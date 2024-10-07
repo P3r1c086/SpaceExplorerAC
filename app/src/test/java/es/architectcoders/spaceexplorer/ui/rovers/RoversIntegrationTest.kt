@@ -24,7 +24,7 @@ class RoversIntegrationTest {
 
     @Test
     fun `Data is loaded from server when local source is empty`() = runTest {
-        val remoteData = listOf(samplePhoto.copy(id = 1), samplePhoto.copy(id = 2))
+        val remoteData = listOf(samplePhoto.copy(id = "1"), samplePhoto.copy(id = "2"))
         val vm = buildViewModelWith(
             localData = emptyList(),
             remoteData = remoteData
@@ -41,8 +41,8 @@ class RoversIntegrationTest {
 
     @Test
     fun `Data is loaded from local source when remote source is empty`() = runTest {
-        val localData = listOf(samplePhoto.copy(id = 10), samplePhoto.copy(id = 11))
-        val remoteData = listOf(samplePhoto.copy(id = 1), samplePhoto.copy(id = 2))
+        val localData = listOf(samplePhoto.copy(id = "10"), samplePhoto.copy(id = "11"))
+        val remoteData = listOf(samplePhoto.copy(id = "1"), samplePhoto.copy(id = "2"))
         val vm = buildViewModelWith(
             localData = localData,
             remoteData = remoteData

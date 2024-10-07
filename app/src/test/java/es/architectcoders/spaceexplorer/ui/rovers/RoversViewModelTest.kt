@@ -40,7 +40,7 @@ class RoversViewModelTest {
     @Mock
     private lateinit var saveRoverFavoriteUseCase: SaveRoversFavoriteUseCase
 
-    private val photos = listOf(samplePhoto.copy(id = 1))
+    private val photos = listOf(samplePhoto.copy(id = "1"))
 
     private lateinit var vm: RoversViewModel
 
@@ -122,7 +122,7 @@ class RoversViewModelTest {
     @Test
     fun `Photo is saved as favorite`() = runTest {
         // Given
-        val photo = samplePhoto.copy(id = 1)
+        val photo = samplePhoto.copy(id = "1")
         vm = buildViewModelWithRoomError()
         // When
         vm.saveRoversAsFavourite(photo)
@@ -136,7 +136,7 @@ class RoversViewModelTest {
     @Test
     fun `Photo isn't saved as favorite`() = runTest {
         // Given
-        val photo = samplePhoto.copy(id = 1)
+        val photo = samplePhoto.copy(id = "1")
         vm = buildViewModelWithRoomError()
 
         // When
@@ -172,9 +172,17 @@ class RoversViewModelTest {
 }
 
 private val samplePhoto = Photo(
-    "2023-01-01",
-    0,
-    "https://example.com",
-    "1",
-    false
+    date = "2023-01-01",
+    title = "Sample Photo",
+    explanation = "A sample photo explanation.",
+    hdurl = "https://example.com/hd",
+    url = "https://example.com",
+    mediaType = "image",
+    serviceVersion = "v1",
+    type = "photo",
+    favorite = false,
+    sol = "1",
+    imgSrc = "https://example.com/image.jpg",
+    id = "1",
+    earthDate = "2023-01-01"
 )

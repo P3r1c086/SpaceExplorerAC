@@ -13,7 +13,7 @@ class GetRoversUseCaseTest {
 
     @Test
     fun `Invoke calls rovers repository`(): Unit = runBlocking {
-        val photos = flowOf(listOf(samplePhoto.copy(id = 1)))
+        val photos = flowOf(listOf(samplePhoto.copy(id = "1")))
         val getRoversUseCase = GetRoversUseCase(mock {
             on{ allRovers} doReturn photos
         })

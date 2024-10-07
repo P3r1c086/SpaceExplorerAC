@@ -5,8 +5,7 @@ import es.architectcoders.domain.Error
 import es.architectcoders.domain.NotificationsItem
 import es.architectcoders.spaceexplorer.framework.toError
 import es.architectcoders.spaceexplorer.testRules.CoroutinesTestRules
-import es.architectcoders.spaceexplorer.ui.mars.MarsViewModel
-import es.architectcoders.spaceexplorer.ui.rovers.RoversViewModel
+import es.architectcoders.spaceexplorer.ui.notifications.NotificationsViewModel
 import es.architectcoders.usecases.GetNotificationsUseCase
 import es.architectcoders.usecases.RequestNotificationsUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -26,7 +25,7 @@ import org.mockito.kotlin.whenever
 
 
 @RunWith(MockitoJUnitRunner::class)
-class MarsViewModelTest{
+class NotificationsViewModelTest{
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @get:Rule
@@ -40,7 +39,7 @@ class MarsViewModelTest{
 
     private val notifications = listOf(sampleNotificationItem)
 
-    private lateinit var vm: MarsViewModel
+    private lateinit var vm: NotificationsViewModel
 
 
     @Test
@@ -48,10 +47,10 @@ class MarsViewModelTest{
         vm = buildViewModel()
 
         vm.state.test {
-            assertEquals(MarsViewModel.UiState(), awaitItem())
-            assertEquals(MarsViewModel.UiState(loading = true), awaitItem())
-            assertEquals(MarsViewModel.UiState(loading = false, error = null), awaitItem())
-            assertEquals(MarsViewModel.UiState(notificationsList = notifications), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(loading = true), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(loading = false, error = null), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(notificationsList = notifications), awaitItem())
             cancelAndConsumeRemainingEvents()
         }
     }
@@ -67,10 +66,10 @@ class MarsViewModelTest{
 
         // Then(resultados esperados)
         vm.state.test {
-            assertEquals(MarsViewModel.UiState(), awaitItem())
-            assertEquals(MarsViewModel.UiState(loading = true), awaitItem())
-            assertEquals(MarsViewModel.UiState(loading = false), awaitItem())
-            assertEquals(MarsViewModel.UiState(notificationsList = notifications, loading = false, error = null), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(loading = true), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(loading = false), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(notificationsList = notifications, loading = false, error = null), awaitItem())
             cancelAndConsumeRemainingEvents()
         }
     }
@@ -97,9 +96,9 @@ class MarsViewModelTest{
 
         // Then
         vm.state.test {
-            assertEquals(MarsViewModel.UiState(), awaitItem())
-            assertEquals(MarsViewModel.UiState(loading = true), awaitItem())
-            assertEquals(MarsViewModel.UiState(notificationsList = null, loading = false, error = error), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(loading = true), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(notificationsList = null, loading = false, error = error), awaitItem())
             cancelAndConsumeRemainingEvents()
         }
     }
@@ -113,10 +112,10 @@ class MarsViewModelTest{
 
         // Then
         vm.state.test {
-            assertEquals(MarsViewModel.UiState(), awaitItem())
-            assertEquals(MarsViewModel.UiState(loading = true), awaitItem())
-            assertEquals(MarsViewModel.UiState(notificationsList = null, loading = false, error = null), awaitItem())
-            assertEquals(MarsViewModel.UiState(notificationsList = null, loading = false, error = error.toError()), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(loading = true), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(notificationsList = null, loading = false, error = null), awaitItem())
+            assertEquals(NotificationsViewModel.UiState(notificationsList = null, loading = false, error = error.toError()), awaitItem())
             cancelAndConsumeRemainingEvents()
         }
     }
@@ -134,15 +133,15 @@ class MarsViewModelTest{
         verify(requestNotificationsUseCase, times(2)).invoke()
     }
 
-    private fun buildViewModel(): MarsViewModel {
+    private fun buildViewModel(): NotificationsViewModel {
         whenever(getNotificationsUseCase()).thenReturn(flowOf(notifications))
-        return MarsViewModel(requestNotificationsUseCase, getNotificationsUseCase)
+        return NotificationsViewModel(requestNotificationsUseCase, getNotificationsUseCase)
     }
 
-    private fun buildViewModelWithRoomError() : MarsViewModel {
+    private fun buildViewModelWithRoomError() : NotificationsViewModel {
         val error = Throwable("Error unknown")
         whenever(getNotificationsUseCase()).thenReturn(flow { throw error })
-        return MarsViewModel(requestNotificationsUseCase, getNotificationsUseCase)
+        return NotificationsViewModel(requestNotificationsUseCase, getNotificationsUseCase)
     }
 }
 
