@@ -44,5 +44,17 @@
             app:indicatorColor="@color/blue_dark"
             app:visible="@{loading}" />
 
+        <TextView
+            android:id="@+id/errorTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="22sp"
+            tools:text="Error"
+            android:textColor="@color/red_dark"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            app:errorVisible="@{error}"
+            app:errorMessage="@{error}"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

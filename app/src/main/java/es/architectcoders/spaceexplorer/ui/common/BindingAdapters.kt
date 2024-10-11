@@ -2,6 +2,7 @@ package es.architectcoders.spaceexplorer.ui.common
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
@@ -56,5 +57,29 @@ fun MaterialTextView.setFormattedIssueTime(issueTime: String?) {
         val date = inputFormat.parse(it)
         outputFormat.timeZone = TimeZone.getTimeZone("UTC")
         text = outputFormat.format(date)
+    }
+}
+
+@BindingAdapter("errorVisible")
+fun View.setErrorVisible(error: es.architectcoders.domain.Error?) {
+    visibility = if (error != null) {
+        when (error) {
+            is es.architectcoders.domain.Error.Unknown -> View.VISIBLE
+            is es.architectcoders.domain.Error.Server -> View.VISIBLE
+            is es.architectcoders.domain.Error.Connectivity -> View.VISIBLE
+            else -> View.GONE
+        }
+    } else {
+        View.GONE
+    }
+}
+
+@BindingAdapter("errorMessage")
+fun TextView.setErrorMessage(error: es.architectcoders.domain.Error?) {
+    text = when (error) {
+        is es.architectcoders.domain.Error.Unknown -> error.message
+        is es.architectcoders.domain.Error.Server -> "Error de servidor: ${error.code}"
+        is es.architectcoders.domain.Error.Connectivity -> "Error de conectividad"
+        else -> ""
     }
 }
