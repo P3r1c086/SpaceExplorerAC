@@ -49,30 +49,21 @@ class FavouriteAdapter :
 
     private class DiffCallback : DiffUtil.ItemCallback<Any>() {
         override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
-            // Compara si los elementos tienen el mismo tipo
-            if (oldItem.javaClass != newItem.javaClass) return false
-
-            // Compara los elementos dependiendo de su tipo
-            return when (oldItem) {
-                is Photo -> oldItem.id == (newItem as Photo).id
-                is Apod -> oldItem.id == (newItem as Apod).id
+            return when {
+                oldItem is Photo && newItem is Photo -> oldItem.id == newItem.id
+                oldItem is Apod && newItem is Apod -> oldItem.id == newItem.id
                 else -> false
             }
         }
 
         override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
-            // Implementa la lógica para comparar si el contenido de los elementos es el mismo
             return when {
                 oldItem is Photo && newItem is Photo -> {
-                    // Comparar los campos relevantes de los elementos Photo
-                    oldItem.id == newItem.id &&
-                            oldItem.imgSrc == newItem.imgSrc
+                    oldItem.id == newItem.id && oldItem.imgSrc == newItem.imgSrc
                 }
                 oldItem is Apod && newItem is Apod -> {
-                    // Comparar los campos relevantes de los elementos Apod
-                    oldItem.id == newItem.id &&
-                            oldItem.title == newItem.title
-                    // Agrega cualquier otro campo relevante que desees comparar
+                    oldItem.id == newItem.id && oldItem.title == newItem.title
+                    // Asegúrate de agregar cualquier otro campo relevante que quieras comparar.
                 }
                 else -> false
             }
