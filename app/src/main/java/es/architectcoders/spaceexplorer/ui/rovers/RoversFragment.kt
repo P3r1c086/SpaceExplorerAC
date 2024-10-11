@@ -3,12 +3,12 @@ package es.architectcoders.spaceexplorer.ui.rovers
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import es.architectcoders.domain.Error
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import es.architectcoders.domain.Error
 import es.architectcoders.spaceexplorer.R
 import es.architectcoders.spaceexplorer.databinding.FragmentRoversBinding
 import es.architectcoders.spaceexplorer.ui.common.launchAndCollectT
@@ -68,9 +68,16 @@ class RoversFragment : Fragment(R.layout.fragment_rovers) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.dialog_title_error))
             .setMessage(error)
+            //todo:Al cancelar el dialogo sin darle a retry el estado del error se pone en null y no
+            // me pinta el error en textview del xml. En el caso de las notificaciones eso no me pasa
             .setNegativeButton(getString(R.string.dialog_cancel)) { dialog, _ -> dialog.dismiss() }
             .setPositiveButton(getString(R.string.dialog_retry)) { _, _ -> viewModel.retry() }
             .setCancelable(false)
             .show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadData() // Llama a la lógica que estaba en init para recargar datos
     }
 }

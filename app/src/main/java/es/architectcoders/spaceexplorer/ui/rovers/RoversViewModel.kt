@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RoversViewModel @Inject constructor(
     private val requestRoversUseCase: RequestRoversUseCase,
-    getRoversUseCase: GetRoversUseCase,
+    private val getRoversUseCase: GetRoversUseCase,
     private val saveRoverFavoriteUseCase: SaveRoversFavoriteUseCase
 ) : ViewModel() {
 
@@ -28,6 +28,9 @@ class RoversViewModel @Inject constructor(
     val state: StateFlow<UiState> = _state.asStateFlow()
 
     init {
+        loadData()
+    }
+    fun loadData() {
         viewModelScope.launch {
             _state.update { _state.value.copy(loading = true) }
             val error = requestRoversUseCase()

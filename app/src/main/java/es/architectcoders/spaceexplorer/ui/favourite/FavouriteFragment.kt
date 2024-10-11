@@ -1,9 +1,7 @@
 package es.architectcoders.spaceexplorer.ui.favourite
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,11 +20,11 @@ class FavouriteFragment : Fragment(R.layout.fragment_favourite) {
 
     private val favouriteAdapter : FavouriteAdapter = FavouriteAdapter()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_favourite, container, false)
-    }
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+//    ): View? {
+//        return inflater.inflate(R.layout.fragment_favourite, container, false)
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,8 +36,12 @@ class FavouriteFragment : Fragment(R.layout.fragment_favourite) {
             binding.loading = it.loading
             binding.listitems = it.items
             binding.error = it.error
-
+            favouriteAdapter.submitList(it.items)
         }
 
+    }
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadData() // Llama a la lógica que estaba en init para recargar datos
     }
 }

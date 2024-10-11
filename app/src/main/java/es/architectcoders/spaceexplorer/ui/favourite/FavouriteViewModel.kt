@@ -33,13 +33,16 @@ class FavouriteViewModel @Inject constructor(
     private val favoriteList = mutableListOf<NasaItem>()
 
     init {
+        loadData()
+    }
+    fun loadData() {
             viewModelScope.launch {
                 getFavoritesUseCase()
                     .flowOn(Dispatchers.IO)
                     .onStart {
-                        favoriteList.clear()
+                        favoriteList.clear()//Se limpia la lista favoriteList para asegurarse de que esté vacía antes de cargar nuevos datos.
                         _state.update {
-                            it.copy(loading = true, items = favoriteList)
+                            it.copy(loading = true, items = favoriteList)//esta lista siempre estará vacía
                         }
                     }
                     .catch { cause ->
@@ -50,14 +53,15 @@ class FavouriteViewModel @Inject constructor(
                             )
                         }
                     }
-                    .onEach { flow ->
-                        flow.first { true }.also { items ->
+                    .onEach { flow ->//onEach se ejecuta cada vez que el flujo emite un nuevo elemento.(entendemos elemento como una lista de elementos apod o photo)
+                        flow.first { true }.also { items ->//No entiendo este paso. Si items fuera un solo elemento (como parece ser el caso por el uso de first { true }),
+                            // entonces este código no estaría haciendo lo esperado, ya que debería estar trabajando con toda la lista emitida por el flujo.
                         favoriteList.addAll(items.sortedBy {
                             it.id})
-                            favoriteList
+                            favoriteList//puesto para verificar el valor de la lista mientras se desarrollaba el código, pero no es estrictamente necesaria.
                         }
                     }
-                    .onCompletion {
+                    .onCompletion {//es una función que se ejecuta cuando el flujo termina de emitir elementos, es decir, cuando se ha completado su trabajo.
                         if (favoriteList.isEmpty()) {
                             _state.update {
                                 it.copy(loading = false, error = Error.Unknown("No hay favoritos"))
@@ -69,7 +73,7 @@ class FavouriteViewModel @Inject constructor(
                                     items = favoriteList/*.sortedByDescending { favorite -> favorite.date }*/)
                             }
                         }
-                    }.collect()
+                    }.collect()// es la función que se utiliza para iniciar la recopilación de los elementos emitidos por el flujo.
             }
         }
 
