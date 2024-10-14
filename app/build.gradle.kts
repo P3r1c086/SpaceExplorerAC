@@ -145,8 +145,8 @@ dependencies {
     testImplementation(project(":appTestShared"))
     testImplementation(project(":data"))
     testImplementation(project(":usecases"))
-    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+//    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.5")
+//    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
     androidTestImplementation(project(":appTestShared"))
 
 }
