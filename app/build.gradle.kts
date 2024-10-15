@@ -23,8 +23,9 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        //Con esto ya se ejecutara con el runner de hilt y ya podremos ejecutar test que esten
+        // anotados con la anotacion correspondiente de hilt
+        testInstrumentationRunner = "es.architectcoders.spaceexplorer.di.HiltTestRunner"
 
         kapt {
             arguments {
@@ -108,6 +109,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.49")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("com.google.dagger:hilt-android-testing:2.49")
     kapt("com.google.dagger:hilt-compiler:2.49")
     // Livedata
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
@@ -140,6 +142,11 @@ dependencies {
     testImplementation(Libs.JUnit.junit)
     androidTestImplementation(Libs.AndroidX.Test.Ext.junit)
     androidTestImplementation(Libs.AndroidX.Test.Espresso.contrib)
+    androidTestImplementation(Libs.AndroidX.Test.runner)
+    androidTestImplementation(Libs.AndroidX.Test.rules)
+    androidTestImplementation(Libs.Hilt.test)
+    kaptAndroidTest(Libs.Hilt.compiler)
+
     testImplementation("junit:junit:4.13.2")
     testImplementation(project(":testShared"))
     testImplementation(project(":appTestShared"))
