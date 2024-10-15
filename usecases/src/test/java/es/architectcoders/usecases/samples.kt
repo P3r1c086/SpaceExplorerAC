@@ -1,5 +1,6 @@
 package es.architectcoders.usecases
 
+import es.architectcoders.domain.Apod
 import es.architectcoders.domain.NotificationsItem
 import es.architectcoders.domain.Photo
 
@@ -25,4 +26,18 @@ internal val sampleNotificationsItem = NotificationsItem(
     "",
     "https://example.com",
     "FLR"
+)
+
+internal val sampleApod = Apod(
+    id = "apod1",
+    copyright = "NASA",
+    date = "2023-01-01",
+    explanation = "Explanation",
+    hdurl = "https://example.com/hd",
+    mediaType = "image",
+    serviceVersion = "v1",
+    title = "APOD Title",
+    url = "https://example.com",
+    favorite = true,
+    type = "apod"
 )

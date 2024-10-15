@@ -1,4 +1,4 @@
-package es.architectcoders.usecases.rovers
+package es.architectcoders.usecases.favoritos
 
 import es.architectcoders.data.repository.RoversRepository
 import es.architectcoders.usecases.SaveRoversFavoriteUseCase
