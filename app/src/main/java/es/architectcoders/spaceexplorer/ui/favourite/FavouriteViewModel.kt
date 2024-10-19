@@ -57,7 +57,7 @@ class FavouriteViewModel @Inject constructor(
                         flow.first { true }.also { items ->//No entiendo este paso. Si items fuera un solo elemento (como parece ser el caso por el uso de first { true }),
                             // entonces este código no estaría haciendo lo esperado, ya que debería estar trabajando con toda la lista emitida por el flujo.
                         favoriteList.addAll(items.sortedBy {
-                            it.id})
+                            it.date})
                             favoriteList//puesto para verificar el valor de la lista mientras se desarrollaba el código, pero no es estrictamente necesaria.
                         }
                     }

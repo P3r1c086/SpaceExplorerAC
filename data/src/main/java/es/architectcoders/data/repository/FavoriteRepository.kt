@@ -16,22 +16,22 @@ class FavoriteRepository @Inject constructor(
     private val ApodLocalDataSource: ApodLocalDataSource
 ){
 
-//    fun getFavoriteList(): Flow<Flow<List<NasaItem>>> {
-//        val allFavoritesApods: Flow<List<Apod>> = ApodLocalDataSource.getFavoriteApods
-//        val allFavoritesRovers: Flow<List<Photo>> = RoversLocalDataSource.getFavoritePhoto
-//
-//        return merge(flowOf(allFavoritesApods, allFavoritesRovers))
-//    }
-
-    fun getFavoriteList(): Flow<List<NasaItem>> {
+    fun getFavoriteList(): Flow<Flow<List<NasaItem>>> {
         val allFavoritesApods: Flow<List<Apod>> = ApodLocalDataSource.getFavoriteApods
         val allFavoritesRovers: Flow<List<Photo>> = RoversLocalDataSource.getFavoritePhoto
 
-        return combine(allFavoritesApods, allFavoritesRovers) { apods, rovers ->
-            val combinedFavorites = mutableListOf<NasaItem>()
-            combinedFavorites.addAll(apods)
-            combinedFavorites.addAll(rovers)
-            combinedFavorites
-        }
+        return merge(flowOf(allFavoritesApods, allFavoritesRovers))
     }
+
+//    fun getFavoriteList(): Flow<List<NasaItem>> {
+//        val allFavoritesApods: Flow<List<Apod>> = ApodLocalDataSource.getFavoriteApods
+//        val allFavoritesRovers: Flow<List<Photo>> = RoversLocalDataSource.getFavoritePhoto
+//
+//        return combine(allFavoritesApods, allFavoritesRovers) { apods, rovers ->
+//            val combinedFavorites = mutableListOf<NasaItem>()
+//            combinedFavorites.addAll(apods)
+//            combinedFavorites.addAll(rovers)
+//            combinedFavorites
+//        }
+//    }
 }
