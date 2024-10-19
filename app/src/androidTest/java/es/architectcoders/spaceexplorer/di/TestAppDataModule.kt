@@ -1,5 +1,7 @@
 package es.architectcoders.spaceexplorer.di
 
+import android.app.Application
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -16,14 +18,32 @@ import es.architectcoders.spaceexplorer.apptestshared.FakeNotificationsLocalData
 import es.architectcoders.spaceexplorer.apptestshared.FakeNotificationsRemoteDataSource
 import es.architectcoders.spaceexplorer.apptestshared.FakeRoversLocalDataSource
 import es.architectcoders.spaceexplorer.apptestshared.FakeRoversRemoteDataSource
+import es.architectcoders.spaceexplorer.framework.database.AppDatabase
 import javax.inject.Singleton
 
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [AppDataModule::class]
+    replaces = [AppDataModule::class, DatabaseModule::class]
 )
 object TestAppDataModule {
+
+    @Provides
+    @Singleton
+    fun provideDatabase(app: Application) = Room.inMemoryDatabaseBuilder(
+        app,
+        AppDatabase::class.java
+    ).build()
+
+    @Provides
+    @Singleton
+    fun provideRoversDao(db: AppDatabase) = db.getRoversDao()
+    @Provides
+    @Singleton
+    fun provideApodDao(db: AppDatabase) = db.getApodDao()
+    @Provides
+    @Singleton
+    fun provideNotificationsDao(db: AppDatabase) = db.getNotificationsDao()
 
     @Provides
     @Singleton
@@ -48,4 +68,6 @@ object TestAppDataModule {
     @Provides
     @Singleton
     fun provideFakeLocalDataSourceNotifications(): NotificationsLocalDataSource = FakeNotificationsLocalDataSource()
+
+
 }

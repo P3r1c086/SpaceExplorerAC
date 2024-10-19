@@ -33,7 +33,7 @@ class RoversRoomDataSource @Inject constructor(
 
 private fun List<DbPhoto>.toDomain(): List<Photo> = map { it.toDomain() }
 
-private fun DbPhoto.toDomain(): Photo =
+fun DbPhoto.toDomain(): Photo =
     Photo(
         earthDate = earthDate,
         id = id.toString(),
@@ -50,7 +50,7 @@ private fun DbPhoto.toDomain(): Photo =
         date = ""
     )
 
-private fun List<Photo>.fromDomain(): List<DbPhoto> = map { it.fromDomain() }
+fun List<Photo>.fromDomain(): List<DbPhoto> = map { it.fromDomain() }
 
 private fun Photo.fromDomain(): DbPhoto =
     DbPhoto(

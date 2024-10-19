@@ -32,6 +32,14 @@ val defaultFakePhotos = listOf(
     samplePhoto.copy(id = "3"),
     samplePhoto.copy(id = "4")
 )
+val defaultFakePhotos2 = listOf(
+    samplePhoto.copy(id = "1"),
+    samplePhoto.copy(id = "2"),
+    samplePhoto.copy(id = "3"),
+    samplePhoto.copy(id = "4"),
+    samplePhoto.copy(id = "5"),
+    samplePhoto.copy(id = "6")
+)
 
 class FakeRoversLocalDataSource : RoversLocalDataSource {
 

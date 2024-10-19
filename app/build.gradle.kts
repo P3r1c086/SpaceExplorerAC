@@ -145,6 +145,7 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Test.runner)
     androidTestImplementation(Libs.AndroidX.Test.rules)
     androidTestImplementation(Libs.Hilt.test)
+    androidTestImplementation(Libs.Kotlin.Coroutines.test)
     kaptAndroidTest(Libs.Hilt.compiler)
 
     testImplementation("junit:junit:4.13.2")
