@@ -1,24 +1,19 @@
 package es.architectcoders.spaceexplorer.ui.main
 
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import es.architectcoders.spaceexplorer.apptestshared.FakeRoversLocalDataSource
 import es.architectcoders.spaceexplorer.apptestshared.defaultFakePhotos
 import es.architectcoders.spaceexplorer.apptestshared.defaultFakePhotos2
-import es.architectcoders.spaceexplorer.apptestshared.samplePhoto
 import es.architectcoders.spaceexplorer.framework.database.roverDb.RoversDao
 import es.architectcoders.spaceexplorer.framework.database.roverDb.fromDomain
-import es.architectcoders.spaceexplorer.ui.MainActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
-import org.junit.Assert.assertEquals
 
 @ExperimentalCoroutinesApi
 @HiltAndroidTest//para que los test funcionen con hilt necesito esta anotacion
@@ -43,8 +38,12 @@ class RoversInstrumentationTest {
 
     @Test
     fun check_4_items_db() = runTest{
+        //Given
         roversDao.insertRovers(defaultFakePhotos.fromDomain())
-        assertEquals(4,roversDao.roversCount())
+        //When
+        val result = roversDao.roversCount()
+        //Then
+        assertEquals(4,result)
     }
     @Test
     fun check_6_items_db() = runTest{
@@ -57,11 +56,12 @@ class RoversInstrumentationTest {
     }
     @Test
     fun check_replace_items_db() = runTest{
-
+        //Given
         roversDao.insertRovers(defaultFakePhotos.fromDomain())
         roversDao.insertRovers(defaultFakePhotos2.fromDomain())
-        assertEquals(6,roversDao.roversCount())
+        //When
+        val result =roversDao.roversCount()
+        //Then
+        assertEquals(6,result)
     }
-
-    //todo: hacer test apod y notifications
 }

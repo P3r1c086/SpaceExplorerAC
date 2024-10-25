@@ -5,6 +5,7 @@ import es.architectcoders.data.datasource.ApodLocalDataSource
 import es.architectcoders.data.datasource.ApodRemoteDataSource
 import es.architectcoders.domain.Apod
 import es.architectcoders.domain.Error
+import es.architectcoders.spaceexplorer.framework.database.apodDb.ApodEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -21,6 +22,30 @@ private val defaultFakeApod = Apod(
     url = "https://example.com/apod",
     favorite = false,
     type = "apod"
+)
+val defaultFakeApodEntity = ApodEntity(
+    id = 1,
+    copyright = "NASA",
+    date = "2023-01-01",
+    explanation = "A sample APOD explanation.",
+    hdurl = "https://example.com/hd_apod",
+    mediaType = "image",
+    serviceVersion = "v1",
+    title = "Sample APOD",
+    url = "https://example.com/apod",
+    favorite = false
+)
+val defaultFakeApodEntity2 = ApodEntity(
+    id = 2,
+    copyright = "NASA",
+    date = "2023-02-02",
+    explanation = "A sample APOD explanation.",
+    hdurl = "https://example.com/hd_apod",
+    mediaType = "image",
+    serviceVersion = "v1",
+    title = "Sample APOD",
+    url = "https://example.com/apod",
+    favorite = false
 )
 
 class FakeApodLocalDataSource : ApodLocalDataSource {
