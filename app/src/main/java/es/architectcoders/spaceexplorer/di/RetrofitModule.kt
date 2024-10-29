@@ -22,7 +22,12 @@ object  RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(nasaClient: OkHttpClient): Retrofit {
+    @ApiUrl
+    fun provideApiUrl(): String = "https://api.nasa.gov/"
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(nasaClient: OkHttpClient, @ApiUrl apiUrl: String): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .client(nasaClient)
