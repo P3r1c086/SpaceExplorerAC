@@ -51,19 +51,8 @@ class RoversInstrumentationTest {
         mockWebServerRule.server.enqueue(
             MockResponse().fromJson("items_rovers.json")
         )
-//        server.start(8080)
-//
-//        server.enqueue(
-//            MockResponse().fromJson("items_rovers.json")
-//        )
-
         hiltRule.inject()
     }
-
-//    @After
-//    fun tearDown(){
-//        server.shutdown()
-//    }
 
     @Test
     fun check_4_items_db() = runTest{
@@ -104,7 +93,7 @@ class RoversInstrumentationTest {
         }
         val photos = remoteDataSourceRovers.getRovers(calendar)
         photos.fold({ throw Exception(it.toString()) }) {
-            assertEquals(1204630, it[0].id)
+            assertEquals("1204630", it[0].id)
         }
     }
 }

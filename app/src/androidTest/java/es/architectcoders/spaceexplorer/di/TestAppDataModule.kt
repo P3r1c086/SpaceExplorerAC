@@ -6,26 +6,14 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import es.architectcoders.data.datasource.ApodLocalDataSource
-import es.architectcoders.data.datasource.ApodRemoteDataSource
-import es.architectcoders.data.datasource.NotificationsLocalDataSource
-import es.architectcoders.data.datasource.NotificationsRemoteDataSource
-import es.architectcoders.data.datasource.RoversLocalDataSource
-import es.architectcoders.data.datasource.RoversRemoteDataSource
-import es.architectcoders.spaceexplorer.BuildConfig
 import es.architectcoders.spaceexplorer.R
-import es.architectcoders.spaceexplorer.apptestshared.FakeApodLocalDataSource
-import es.architectcoders.spaceexplorer.apptestshared.FakeApodRemoteDataSource
-import es.architectcoders.spaceexplorer.apptestshared.FakeNotificationsLocalDataSource
-import es.architectcoders.spaceexplorer.apptestshared.FakeNotificationsRemoteDataSource
-import es.architectcoders.spaceexplorer.apptestshared.FakeRoversLocalDataSource
-import es.architectcoders.spaceexplorer.apptestshared.FakeRoversRemoteDataSource
 import es.architectcoders.spaceexplorer.framework.database.AppDatabase
 import es.architectcoders.spaceexplorer.framework.server.NasaInterceptor
 import es.architectcoders.spaceexplorer.framework.server.apodServer.ApodApiClient
 import es.architectcoders.spaceexplorer.framework.server.notificationsServer.NotificationsApiClient
 import es.architectcoders.spaceexplorer.framework.server.roverServer.RoversApiClient
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -33,9 +21,14 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [AppDataModule::class, DatabaseModule::class]
+    replaces = [DatabaseModule::class, RetrofitModule::class]
 )
 object TestAppDataModule {
+
+    @Provides
+    @Singleton
+    @ApiKey
+    fun provideApiKey(app: Application): String = app.getString(R.string.api_key)
 
     @Provides
     @Singleton
@@ -61,33 +54,9 @@ object TestAppDataModule {
 
     @Provides
     @Singleton
-    fun provideFakeLocalDataSource(): ApodLocalDataSource = FakeApodLocalDataSource()
-
-//    @Provides
-//    @Singleton
-//    fun provideFakeRemoteDataSource(): ApodRemoteDataSource = FakeApodRemoteDataSource()
-
-//    @Provides
-//    @Singleton
-//    fun provideFakeRemoteDataSourceRovers(): RoversRemoteDataSource = FakeRoversRemoteDataSource()
-
-    @Provides
-    @Singleton
-    fun provideFakeLocalDataSourceRovers(): RoversLocalDataSource = FakeRoversLocalDataSource()
-
-//    @Provides
-//    @Singleton
-//    fun provideFakeRemoteDataSourceNotifications(): NotificationsRemoteDataSource = FakeNotificationsRemoteDataSource()
-
-    @Provides
-    @Singleton
-    fun provideFakeLocalDataSourceNotifications(): NotificationsLocalDataSource = FakeNotificationsLocalDataSource()
-
-    @Provides
-    @Singleton
     fun provideRetrofit(nasaClient: OkHttpClient, @ApiUrl apiUrl: String): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(apiUrl)
             .client(nasaClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -116,9 +85,4 @@ object TestAppDataModule {
     fun provideClient(interceptor: NasaInterceptor): OkHttpClient {
         return OkHttpClient.Builder().addInterceptor(interceptor).build()
     }
-
-    @Provides
-    @Singleton
-    @ApiKey
-    fun provideApiKey(app: Application): String = app.getString(R.string.api_key)
 }
