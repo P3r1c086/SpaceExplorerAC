@@ -68,8 +68,6 @@ class RoversFragment : Fragment(R.layout.fragment_rovers) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.dialog_title_error))
             .setMessage(error)
-            //todo:Al cancelar el dialogo sin darle a retry el estado del error se pone en null y no
-            // me pinta el error en textview del xml. En el caso de las notificaciones eso no me pasa
             .setNegativeButton(getString(R.string.dialog_cancel)) { dialog, _ -> dialog.dismiss() }
             .setPositiveButton(getString(R.string.dialog_retry)) { _, _ -> viewModel.retry() }
             .setCancelable(false)

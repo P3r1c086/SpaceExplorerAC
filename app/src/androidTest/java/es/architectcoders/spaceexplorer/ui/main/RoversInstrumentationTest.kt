@@ -13,15 +13,12 @@ import es.architectcoders.spaceexplorer.framework.database.roverDb.fromDomain
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi

@@ -147,6 +147,15 @@ dependencies {
     androidTestImplementation(Libs.Hilt.test)
     androidTestImplementation(Libs.Kotlin.Coroutines.test)
     androidTestImplementation(Libs.OkHttp3.mockWebServer)
+    androidTestImplementation ("androidx.navigation:navigation-testing:2.8.3")
+
+    debugImplementation("androidx.fragment:fragment-testing-manifest:1.8.5")
+
+    androidTestImplementation("androidx.fragment:fragment-testing:1.8.5")
+
+    androidTestImplementation ("com.google.dagger:hilt-android-testing:2.49")
+    kaptAndroidTest ("com.google.dagger:hilt-android-compiler:2.49")
+
     kaptAndroidTest(Libs.Hilt.compiler)
 
     testImplementation("junit:junit:4.13.2")
