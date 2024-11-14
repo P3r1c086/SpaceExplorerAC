@@ -1,5 +1,7 @@
 package es.architectcoders.spaceexplorer.ui.main
 
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -11,7 +13,11 @@ import es.architectcoders.spaceexplorer.R
 import es.architectcoders.spaceexplorer.apptestshared.defaultFakeApodEntity
 import es.architectcoders.spaceexplorer.apptestshared.defaultFakeApodEntity2
 import es.architectcoders.spaceexplorer.framework.database.apodDb.ApodDao
+import es.architectcoders.spaceexplorer.launchFragmentInHiltContainer
 import es.architectcoders.spaceexplorer.ui.MainActivity
+import es.architectcoders.spaceexplorer.ui.home.HomeFragment
+import es.architectcoders.spaceexplorer.ui.home.HomeFragmentDirections
+import es.architectcoders.spaceexplorer.ui.model.ApodObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -20,6 +26,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -134,5 +142,19 @@ class ApodInstrumentationTest {
         // Verifica que el botón ha cambiado al estado de favorito
         onView(withId(R.id.ivApodFav))
             .check(matches(withTagValue(`is`("favorite"))))  // Verifica que el estado cambió
+    }
+
+    @Test
+    fun check_navigation(){
+        val apod = ApodObject(1,"","","","","","","", "", false)
+
+        val navController = mock(NavController::class.java)
+        launchFragmentInHiltContainer<HomeFragment> {
+            Navigation.setViewNavController(requireView(), navController)
+        }
+
+        onView(withId(R.id.marsFragment)).perform(click())
+
+        verify(navController).navigate(HomeFragmentDirections.actionHomeFragmentToHomeDetailFragment(apod))
     }
 }

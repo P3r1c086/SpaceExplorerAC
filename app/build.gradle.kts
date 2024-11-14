@@ -148,6 +148,8 @@ dependencies {
     androidTestImplementation(Libs.Kotlin.Coroutines.test)
     androidTestImplementation(Libs.OkHttp3.mockWebServer)
     androidTestImplementation ("androidx.navigation:navigation-testing:2.8.3")
+    androidTestImplementation ("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0")
+    androidTestImplementation ("org.mockito:mockito-android:2.23.4")
 
     debugImplementation("androidx.fragment:fragment-testing-manifest:1.8.5")
 
