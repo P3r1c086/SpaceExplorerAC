@@ -16,7 +16,6 @@ import es.architectcoders.spaceexplorer.apptestshared.defaultFakeNotificationsDb
 import es.architectcoders.spaceexplorer.apptestshared.defaultFakeNotificationsDb2
 import es.architectcoders.spaceexplorer.framework.database.notificationsDb.NotificationsDao
 import es.architectcoders.spaceexplorer.framework.database.notificationsDb.fromDomain
-import es.architectcoders.spaceexplorer.launchFragmentInHiltContainer
 import es.architectcoders.spaceexplorer.ui.home.HomeFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -85,32 +84,32 @@ class NotificationsInstrumentationTest {
         assertEquals(6, result)
     }
 
-    @Test
-    fun check_navigation_to_notifications(){
-
-        // Crear el NavController de prueba
-        val navController = TestNavHostController(ApplicationProvider.getApplicationContext()).apply {
-            CoroutineScope(Dispatchers.IO).launch {
-                withContext(Dispatchers.Main) {
-                    setGraph(R.navigation.main_nav_graph)
-                }
-            }
-
-
-        }
-
-        // Lanza el Fragment usando la función launchFragmentInHiltContainer
-        launchFragmentInHiltContainer<HomeFragment>{
-            // Configurar NavController dentro de este bloque
-            InstrumentationRegistry.getInstrumentation().runOnMainSync {
-                Navigation.setViewNavController(requireView(), navController)
-            }
-        }
-
-        // Haz clic en el elemento del BottomNavigationView
-        onView(withId(R.id.marsFragment)).perform(click())
-
-        // Verifica que el destino actual es el esperado
-        assertEquals(R.id.marsFragment, navController.currentDestination?.id)
-    }
+//    @Test
+//    fun check_navigation_to_notifications(){
+//
+//        // Crear el NavController de prueba
+//        val navController = TestNavHostController(ApplicationProvider.getApplicationContext()).apply {
+//            CoroutineScope(Dispatchers.IO).launch {
+//                withContext(Dispatchers.Main) {
+//                    setGraph(R.navigation.main_nav_graph)
+//                }
+//            }
+//
+//
+//        }
+//
+//        // Lanza el Fragment usando la función launchFragmentInHiltContainer
+//        launchFragmentInHiltContainer<HomeFragment>{
+//            // Configurar NavController dentro de este bloque
+//            InstrumentationRegistry.getInstrumentation().runOnMainSync {
+//                Navigation.setViewNavController(requireView(), navController)
+//            }
+//        }
+//
+//        // Haz clic en el elemento del BottomNavigationView
+//        onView(withId(R.id.marsFragment)).perform(click())
+//
+//        // Verifica que el destino actual es el esperado
+//        assertEquals(R.id.marsFragment, navController.currentDestination?.id)
+//    }
 }

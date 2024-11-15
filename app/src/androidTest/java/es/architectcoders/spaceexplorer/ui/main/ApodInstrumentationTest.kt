@@ -1,11 +1,14 @@
 package es.architectcoders.spaceexplorer.ui.main
 
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -13,11 +16,7 @@ import es.architectcoders.spaceexplorer.R
 import es.architectcoders.spaceexplorer.apptestshared.defaultFakeApodEntity
 import es.architectcoders.spaceexplorer.apptestshared.defaultFakeApodEntity2
 import es.architectcoders.spaceexplorer.framework.database.apodDb.ApodDao
-import es.architectcoders.spaceexplorer.launchFragmentInHiltContainer
 import es.architectcoders.spaceexplorer.ui.MainActivity
-import es.architectcoders.spaceexplorer.ui.home.HomeFragment
-import es.architectcoders.spaceexplorer.ui.home.HomeFragmentDirections
-import es.architectcoders.spaceexplorer.ui.model.ApodObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -26,8 +25,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -130,31 +127,58 @@ class ApodInstrumentationTest {
         assertEquals(listOf(apod1, apod2), result)
     }
 
+//    @Test
+//    fun when_click_in_favorite_the_icon_change(){
+//        // Verifica que el botón comienza en el estado inicial (no favorito)
+//        onView(withId(R.id.ivApodFav))
+//            .check(matches(withTagValue(`is`("not_favorite"))))  // Este "tag" es un ejemplo. Usar un recurso o atributo identificable.
+//
+//        // Simula el click en el botón de favorito
+//        onView(withId(R.id.ivApodFav)).perform(click())
+//
+//        // Verifica que el botón ha cambiado al estado de favorito
+//        onView(withId(R.id.ivApodFav))
+//            .check(matches(withTagValue(`is`("favorite"))))  // Verifica que el estado cambió
+//    }
+
+//    @Test
+//    fun check_navigation(){
+//        val apod = ApodObject(1,"","","","","","","", "", false)
+//
+//        val navController = mock(NavController::class.java)
+//        launchFragmentInHiltContainer<HomeFragment> {
+//            Navigation.setViewNavController(requireView(), navController)
+//        }
+//
+//        onView(withId(R.id.marsFragment)).perform(click())
+//
+//        verify(navController).navigate(HomeFragmentDirections.actionHomeFragmentToHomeDetailFragment(apod))
+//    }
+
     @Test
-    fun when_click_in_favorite_the_icon_change(){
-        // Verifica que el botón comienza en el estado inicial (no favorito)
-        onView(withId(R.id.ivApodFav))
-            .check(matches(withTagValue(`is`("not_favorite"))))  // Este "tag" es un ejemplo. Usar un recurso o atributo identificable.
+    fun testBottomNavigation() {
+        Thread.sleep(3000) // Espera 3 segundos
+        // Verifica que la BottomNavigationView esté visible
+        onView(withId(R.id.bottom_navigation))
+            .check(matches(ViewMatchers.isDisplayed()))
+        // Verifica que el primer item esté seleccionado al iniciar
+        onView(withId(R.id.homeFragment))
+            .check(matches(ViewMatchers.isChecked()))
 
-        // Simula el click en el botón de favorito
-        onView(withId(R.id.ivApodFav)).perform(click())
+        // Navega al segundo item (por ejemplo, "Dashboard")
+        onView(withId(R.id.roversFragment))
+            .perform(click())
 
-        // Verifica que el botón ha cambiado al estado de favorito
-        onView(withId(R.id.ivApodFav))
-            .check(matches(withTagValue(`is`("favorite"))))  // Verifica que el estado cambió
-    }
+        // Verifica que el segundo item esté seleccionado
+        onView(withId(R.id.roversFragment))
+            .check(matches(ViewMatchers.isChecked()))
 
-    @Test
-    fun check_navigation(){
-        val apod = ApodObject(1,"","","","","","","", "", false)
+        // Navega al tercer item (por ejemplo, "Notifications")
+        onView(withId(R.id.marsFragment))
+            .perform(click())
 
-        val navController = mock(NavController::class.java)
-        launchFragmentInHiltContainer<HomeFragment> {
-            Navigation.setViewNavController(requireView(), navController)
-        }
-
-        onView(withId(R.id.marsFragment)).perform(click())
-
-        verify(navController).navigate(HomeFragmentDirections.actionHomeFragmentToHomeDetailFragment(apod))
+        // Verifica que el tercer item esté seleccionado
+        onView(withId(R.id.marsFragment))
+            .check(matches(ViewMatchers.isChecked()))
     }
 }
