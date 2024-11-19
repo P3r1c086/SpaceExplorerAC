@@ -100,6 +100,7 @@ class HomeFragment : Fragment() {
                             is Error.Server -> showErrorDialog(getString(R.string.server_error))
                             is Error.Connectivity -> showErrorDialog(getString(R.string.connectivity_error))
                             is Error.Unknown -> showErrorDialog(getString(R.string.unknown_error))
+                        else -> Unit
                         }
                     }
                 }

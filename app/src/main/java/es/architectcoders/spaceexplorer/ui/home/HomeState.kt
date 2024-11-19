@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import es.architectcoders.spaceexplorer.R
 import es.architectcoders.spaceexplorer.databinding.FragmentHomeBinding
+import es.architectcoders.spaceexplorer.ui.common.Constants
 import es.architectcoders.spaceexplorer.ui.common.loadUrl
 import es.architectcoders.spaceexplorer.ui.model.ApodObject
 
@@ -37,8 +38,10 @@ class HomeState(
         binding.tvExplanation.text = apod.explanation
         if (apod.favorite) {
             binding.ivApodFav.setImageResource(R.drawable.ic_favorite_fill)
+            binding.ivApodFav.tag = Constants.FAVORITE_TAG
         } else {
             binding.ivApodFav.setImageResource(R.drawable.ic_favorite_empty)
+            binding.ivApodFav.tag = Constants.NOT_FAVORITE_TAG
         }
         if (apod.copyright.isNotEmpty()) {
             binding.tvCopyright.text = fragment.getString(R.string.copyright, apod.copyright)

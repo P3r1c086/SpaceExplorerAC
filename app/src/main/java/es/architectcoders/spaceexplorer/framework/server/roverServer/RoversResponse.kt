@@ -3,7 +3,6 @@ package es.architectcoders.spaceexplorer.framework.server.roverServer
 import com.google.gson.annotations.SerializedName
 
 data class RoversResponse(
-    //todo hacer null todos los campos
     val photos: List<PhotoResponse>
 )
 
