@@ -70,131 +70,132 @@ class ApodInstrumentationTest {
     fun check_mock_server_is_working() = runTest {
         val apod = remoteDataSourceApod.getApod()
         apod.fold({ throw Exception(it.toString()) }) {
-            assertEquals("2024-11-18", it?.date)
+            val apod = it
+            assertEquals("Undulatus Clouds over Las Campanas Observatory", apod?.title)
         }
     }
 
-//    @Test
-//    fun check_insert_apod_in_db() = runTest {
-//        // Given
-//        val apod = defaultFakeApodEntity
-//
-//        // When
-//        apodDao.insertApod(apod)
-//        val result = apodDao.apodsCount()
-//
-//        // Then
-//        assertEquals(1, result)
-//    }
-//    @Test
-//    fun check_find_apod_by_id() = runTest {
-//        // Given
-//        val apod = defaultFakeApodEntity
-//        apodDao.insertApod(apod)
-//
-//        // When
-//        val result = apodDao.findApodById(1)
-//
-//        // Then
-//        assertEquals(apod, result)
-//    }
-//    @Test
-//    fun check_find_apod_by_date() = runTest {
-//        // Given
-//        val apod = defaultFakeApodEntity
-//        apodDao.insertApod(apod)
-//
-//        // When
-//        val result = apodDao.findApodByDate("2023-01-01")
-//
-//        // Then
-//        assertEquals(apod, result)
-//    }
-//
-//    @Test
-//    fun check_apods_count_in_db() = runTest {
-//        // Given
-//        val apod1 = defaultFakeApodEntity
-//        val apod2 = defaultFakeApodEntity2
-//        apodDao.insertApod(apod1)
-//        apodDao.insertApod(apod2)
-//
-//        // When
-//        val result = apodDao.apodsCount()
-//
-//        // Then
-//        assertEquals(2, result)
-//    }
-//
-//    @Test
-//    fun check_update_apod_in_db() = runTest {
-//        // Given
-//        val apod = defaultFakeApodEntity
-//        apodDao.insertApod(apod)
-//
-//        // When
-//        val updatedApod = apod.copy(title = "Updated Title")
-//        apodDao.updateApod(updatedApod)
-//        val result = apodDao.findApodById(1)
-//
-//        // Then
-//        assertEquals("Updated Title", result.title)
-//    }
-//
-//    @Test
-//    fun check_get_all_apods() = runTest {
-//        // Given
-//        val apod1 = defaultFakeApodEntity
-//        val apod2 = defaultFakeApodEntity2
-//        apodDao.insertApod(apod1)
-//        apodDao.insertApod(apod2)
-//
-//        // When
-//        val result = apodDao.getAllApods().first() //recolecto el flujo, usando `first()` para obtener el valor actual
-//
-//        // Then
-//        assertEquals(listOf(apod1, apod2), result)
-//    }
+    @Test
+    fun check_insert_apod_in_db() = runTest {
+        // Given
+        val apod = defaultFakeApodEntity
 
-//    @Test
-//    fun when_click_in_favorite_the_icon_change(){
-//        // Verifica que el botón comienza en el estado inicial (no favorito)
-//        onView(withId(R.id.ivApodFav))
-//            .check(matches(withTagValue(`is`(Constants.NOT_FAVORITE_TAG))))  // Este "tag" es un ejemplo. Usar un recurso o atributo identificable.
-//
-//        // Simula el click en el botón de favorito
-//        onView(withId(R.id.ivApodFav)).perform(click())
-//
-//        // Verifica que el botón ha cambiado al estado de favorito
-//        onView(withId(R.id.ivApodFav))
-//            .check(matches(withTagValue(`is`(Constants.FAVORITE_TAG))))  // Verifica que el estado cambió
-//    }
+        // When
+        apodDao.insertApod(apod)
+        val result = apodDao.apodsCount()
 
-//    @Test
-//    fun testBottomNavigation() {
-//        // Verifica que la BottomNavigationView esté visible
-//        onView(withChild(withId(R.id.bottom_navigation) ))
+        // Then
+        assertEquals(1, result)
+    }
+    @Test
+    fun check_find_apod_by_id() = runTest {
+        // Given
+        val apod = defaultFakeApodEntity
+        apodDao.insertApod(apod)
+
+        // When
+        val result = apodDao.findApodById(1)
+
+        // Then
+        assertEquals(apod, result)
+    }
+    @Test
+    fun check_find_apod_by_date() = runTest {
+        // Given
+        val apod = defaultFakeApodEntity
+        apodDao.insertApod(apod)
+
+        // When
+        val result = apodDao.findApodByDate("2023-01-01")
+
+        // Then
+        assertEquals(apod, result)
+    }
+
+    @Test
+    fun check_apods_count_in_db() = runTest {
+        // Given
+        val apod1 = defaultFakeApodEntity
+        val apod2 = defaultFakeApodEntity2
+        apodDao.insertApod(apod1)
+        apodDao.insertApod(apod2)
+
+        // When
+        val result = apodDao.apodsCount()
+
+        // Then
+        assertEquals(2, result)
+    }
+
+    @Test
+    fun check_update_apod_in_db() = runTest {
+        // Given
+        val apod = defaultFakeApodEntity
+        apodDao.insertApod(apod)
+
+        // When
+        val updatedApod = apod.copy(title = "Updated Title")
+        apodDao.updateApod(updatedApod)
+        val result = apodDao.findApodById(1)
+
+        // Then
+        assertEquals("Updated Title", result.title)
+    }
+
+    @Test
+    fun check_get_all_apods() = runTest {
+        // Given
+        val apod1 = defaultFakeApodEntity
+        val apod2 = defaultFakeApodEntity2
+        apodDao.insertApod(apod1)
+        apodDao.insertApod(apod2)
+
+        // When
+        val result = apodDao.getAllApods().first() //recolecto el flujo, usando `first()` para obtener el valor actual
+
+        // Then
+        assertEquals(listOf(apod1, apod2), result)
+    }
+
+    @Test
+    fun when_click_in_favorite_the_icon_change(){
+        // Verifica que el botón comienza en el estado inicial (no favorito)
+        onView(withId(R.id.ivApodFav))
+            .check(matches(withTagValue(`is`(Constants.NOT_FAVORITE_TAG))))  // Este "tag" es un ejemplo. Usar un recurso o atributo identificable.
+
+        // Simula el click en el botón de favorito
+        onView(withId(R.id.ivApodFav)).perform(click())
+
+        // Verifica que el botón ha cambiado al estado de favorito
+        onView(withId(R.id.ivApodFav))
+            .check(matches(withTagValue(`is`(Constants.FAVORITE_TAG))))  // Verifica que el estado cambió
+    }
+
+    @Test
+    fun testBottomNavigation() {
+        // Verifica que la BottomNavigationView esté visible
+        onView(withChild(withId(R.id.bottom_navigation) ))
+            .check(matches(ViewMatchers.isDisplayed()))
+        // Verifica que el primer item esté seleccionado al iniciar
+//        onView(allOf(withId(R.id.homeFragment),withParent(withId(R.id.bottom_navigation) ))  )
 //            .check(matches(ViewMatchers.isDisplayed()))
-//        // Verifica que el primer item esté seleccionado al iniciar
-////        onView(allOf(withId(R.id.homeFragment),withParent(withId(R.id.bottom_navigation) ))  )
-////            .check(matches(ViewMatchers.isDisplayed()))
-//        onView(withId(R.id.homeFragment))
-//            .check(matches(ViewMatchers.isDisplayed()))
-//
-//        // Navega al segundo item (por ejemplo, "Dashboard")
-//        onView(withId(R.id.roversFragment))
-//            .perform(click())
-//
-//        // Verifica que el segundo item esté seleccionado
-//        onView(withId(R.id.roversFragment))
-//            .check(matches(ViewMatchers.isDisplayed()))
-//
-//        // Navega al tercer item (por ejemplo, "Notifications")
-//        onView(withId(R.id.marsFragment))
-//            .perform(click())
-//
-//        // Verifica que el tercer item esté seleccionado
-//        onView(withId(R.id.marsFragment))
-//            .check(matches(ViewMatchers.isDisplayed()))
-//    }
+        onView(withId(R.id.homeFragment))
+            .check(matches(ViewMatchers.isDisplayed()))
+
+        // Navega al segundo item (por ejemplo, "Dashboard")
+        onView(withId(R.id.roversFragment))
+            .perform(click())
+
+        // Verifica que el segundo item esté seleccionado
+        onView(withId(R.id.roversFragment))
+            .check(matches(ViewMatchers.isDisplayed()))
+
+        // Navega al tercer item (por ejemplo, "Notifications")
+        onView(withId(R.id.marsFragment))
+            .perform(click())
+
+        // Verifica que el tercer item esté seleccionado
+        onView(withId(R.id.marsFragment))
+            .check(matches(ViewMatchers.isDisplayed()))
+    }
 }

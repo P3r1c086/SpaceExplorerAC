@@ -1,5 +1,6 @@
 package es.architectcoders.spaceexplorer.framework.server.roverServer
 
+import es.architectcoders.spaceexplorer.framework.server.apodServer.ApodApiClient
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,4 +21,5 @@ object RemoteConnection {
         .build()
 
     val service: RoversApiClient = builder.create()
+    val serviceApod: ApodApiClient = builder.create()
 }
