@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
+        android:usesCleartextTraffic="true"
+        tools:node="merge"
         <activity
             android:name=".HiltTestActivity"
             android:exported="false"  />

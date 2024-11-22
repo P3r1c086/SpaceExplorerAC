@@ -88,10 +88,10 @@ class FakeApodLocalDataSource : ApodLocalDataSource {
     }
 }
 
-class FakeApodRemoteDataSource : ApodRemoteDataSource {
-
-    override suspend fun getApod(): Either<Error, Apod?> {
-        // Simulamos la respuesta con un Apod de ejemplo
-        return Either.Right(defaultFakeApod)
-    }
-}
+//class FakeApodRemoteDataSource : ApodRemoteDataSource {
+//
+//    override suspend fun getApod(): Either<Error, Apod?> {
+//        // Simulamos la respuesta con un Apod de ejemplo
+//        return Either.Right(defaultFakeApod)
+//    }
+//}

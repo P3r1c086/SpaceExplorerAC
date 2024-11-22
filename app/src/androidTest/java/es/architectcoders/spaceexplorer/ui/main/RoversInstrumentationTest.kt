@@ -45,9 +45,7 @@ class RoversInstrumentationTest {
 
     @Before
     fun setUp(){
-        mockWebServerRule.server.enqueue(
-            MockResponse().fromJson("items_rovers.json")
-        )
+
         hiltRule.inject()
     }
 

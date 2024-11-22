@@ -33,7 +33,7 @@ object TestAppDataModule {
     @Provides
     @Singleton
     @ApiUrl
-    fun provideApiUrl(): String = "https://localhost:8080"
+    fun provideApiUrl(): String = "http://localhost:8080"
 
     @Provides
     @Singleton

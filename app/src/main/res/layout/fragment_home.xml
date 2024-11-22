@@ -41,7 +41,7 @@
                     android:layout_gravity="end"
                     android:clickable="true"
                     android:focusable="true"
-                    android:contentDescription="@null"/>
+                    android:contentDescription="@string/favourite"/>
             </FrameLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/llData"

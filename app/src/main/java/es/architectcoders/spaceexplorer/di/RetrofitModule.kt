@@ -29,7 +29,7 @@ object  RetrofitModule {
     @Singleton
     fun provideRetrofit(nasaClient: OkHttpClient, @ApiUrl apiUrl: String): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(apiUrl)
             .client(nasaClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

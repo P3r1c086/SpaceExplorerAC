@@ -25,6 +25,8 @@ class ApodServerDataSource @Inject constructor(@ApiKey private val apiKey: Strin
 //    }
 
     override suspend fun getApod(): Either<Error, Apod?> = tryCall {
-        RemoteConnection.serviceApod.getApod(apiKey).toDomain()
+        RemoteConnection.serviceApod
+            .getApod(apiKey)
+            .toDomain()
     }
 }

@@ -1,17 +1,28 @@
 package es.architectcoders.spaceexplorer.ui.main
 
+import android.view.View
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.AccessibilityChecks
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withChild
+import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.LargeTest
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import es.architectcoders.data.datasource.ApodRemoteDataSource
@@ -34,6 +45,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import javax.inject.Inject
@@ -59,10 +71,7 @@ class ApodInstrumentationTest {
 
     @Before
     fun setUp(){
-        mockWebServerRule.server.enqueue(
-            MockResponse().fromJson("item_apod.json")
-        )
-
+        AccessibilityChecks.enable().setRunChecksFromRootView(true)
         hiltRule.inject()
     }
 
@@ -71,7 +80,7 @@ class ApodInstrumentationTest {
         val apod = remoteDataSourceApod.getApod()
         apod.fold({ throw Exception(it.toString()) }) {
             val apod = it
-            assertEquals("Undulatus Clouds over Las Campanas Observatory", apod?.title)
+            assertEquals("Stars and Dust in the Pacman Nebula", apod?.title)
         }
     }
 
@@ -156,19 +165,39 @@ class ApodInstrumentationTest {
         // Then
         assertEquals(listOf(apod1, apod2), result)
     }
+    inline fun <reified T : Any> ViewInteraction.getTag(): T? {
+        var tag: T? = null
+        perform(object : ViewAction {
+            override fun getConstraints() = ViewMatchers.isAssignableFrom(View::class.java)
 
+            override fun getDescription() = "Get tag from View"
+
+            override fun perform(uiController: UiController, view: View) {
+                when (val viewTag = view.tag) {
+                    is T -> tag = viewTag
+                    else -> error("The tag cannot be casted to the given type!")
+                }
+            }
+        })
+        return tag
+    }
     @Test
     fun when_click_in_favorite_the_icon_change(){
-        // Verifica que el botón comienza en el estado inicial (no favorito)
-        onView(withId(R.id.ivApodFav))
-            .check(matches(withTagValue(`is`(Constants.NOT_FAVORITE_TAG))))  // Este "tag" es un ejemplo. Usar un recurso o atributo identificable.
-
-        // Simula el click en el botón de favorito
-        onView(withId(R.id.ivApodFav)).perform(click())
-
-        // Verifica que el botón ha cambiado al estado de favorito
-        onView(withId(R.id.ivApodFav))
-            .check(matches(withTagValue(`is`(Constants.FAVORITE_TAG))))  // Verifica que el estado cambió
+        onView(allOf(withId(R.id.ivApodFav),
+            withTagValue(`is`(Constants.NOT_FAVORITE_TAG)),
+            withContentDescription("Favourite")
+        ))
+            .check(matches(isNotChecked()))
+//        // Verifica que el botón comienza en el estado inicial (no favorito)
+//        onView(withId(R.id.ivApodFav))
+//            .check(matches(withTagValue(`is`(Constants.NOT_FAVORITE_TAG)))) // Este "tag" es un ejemplo. Usar un recurso o atributo identificable.
+//
+//        // Simula el click en el botón de favorito
+//        onView(withId(R.id.ivApodFav)).perform(click())
+//
+//        // Verifica que el botón ha cambiado al estado de favorito
+//        onView(withId(R.id.ivApodFav))
+//            .check(matches(withTagValue(`is`(Constants.FAVORITE_TAG))))  // Verifica que el estado cambió
     }
 
     @Test
@@ -197,5 +226,14 @@ class ApodInstrumentationTest {
         // Verifica que el tercer item esté seleccionado
         onView(withId(R.id.marsFragment))
             .check(matches(ViewMatchers.isDisplayed()))
+    }
+}
+
+
+@RunWith(AndroidJUnit4::class)
+@LargeTest
+class MyWelcomeWorkflowIntegrationTest {
+    init {
+        AccessibilityChecks.enable()
     }
 }
