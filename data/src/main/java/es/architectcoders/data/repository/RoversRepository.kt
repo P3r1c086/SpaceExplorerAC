@@ -17,7 +17,16 @@ private val roversRemoteDataSource: RoversRemoteDataSource){
     suspend fun requestRovers(): Error? {
         if (roversLocalDataSource.isRoversEmpty()){
             val rovers = roversRemoteDataSource.getRovers(
-                Calendar.getInstance()
+                Calendar.getInstance().apply {
+                    set(
+                        Calendar.YEAR,
+                        Calendar.getInstance().get(Calendar.YEAR) - 4
+                    )
+                    set(
+                        Calendar.DAY_OF_MONTH,
+                        Calendar.getInstance().get(Calendar.DAY_OF_MONTH) - 180
+                    )
+                }
             )
             rovers.fold(ifLeft = { return it }) {
                      roversLocalDataSource.saveRovers(it)
