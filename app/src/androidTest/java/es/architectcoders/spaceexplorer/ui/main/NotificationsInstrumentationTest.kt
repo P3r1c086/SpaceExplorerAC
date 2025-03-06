@@ -1,12 +1,17 @@
 package es.architectcoders.spaceexplorer.ui.main
 
-import androidx.navigation.Navigation
-import androidx.navigation.testing.TestNavHostController
-import androidx.test.core.app.ApplicationProvider
+import android.view.View
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import es.architectcoders.spaceexplorer.R
@@ -16,15 +21,14 @@ import es.architectcoders.spaceexplorer.apptestshared.defaultFakeNotificationsDb
 import es.architectcoders.spaceexplorer.apptestshared.defaultFakeNotificationsDb2
 import es.architectcoders.spaceexplorer.framework.database.notificationsDb.NotificationsDao
 import es.architectcoders.spaceexplorer.framework.database.notificationsDb.fromDomain
-import es.architectcoders.spaceexplorer.ui.home.HomeFragment
-import kotlinx.coroutines.CoroutineScope
+import es.architectcoders.spaceexplorer.ui.MainActivity
+import es.architectcoders.spaceexplorer.ui.notifications.NotificationsAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import kotlinx.coroutines.withContext
+import org.hamcrest.Matcher
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -32,11 +36,14 @@ import org.junit.Test
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-@HiltAndroidTest//para que los test funcionen con hilt necesito esta anotacion
+@HiltAndroidTest
 class NotificationsInstrumentationTest {
 
-    @get:Rule(order = 0)//primero que se configure hilt
+    @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)//con el this le pasamos la clase
+
+    @get:Rule(order = 1)
+    val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     // TestCoroutineDispatcher para controlar el hilo principal en pruebas
     private val testDispatcher = TestCoroutineDispatcher()
@@ -46,10 +53,8 @@ class NotificationsInstrumentationTest {
 
     @Before
     fun setUp(){
-
         // Configura el Dispatcher principal para que use TestCoroutineDispatcher
         Dispatchers.setMain(testDispatcher)
-
         hiltRule.inject()
     }
 
@@ -84,32 +89,62 @@ class NotificationsInstrumentationTest {
         assertEquals(6, result)
     }
 
-//    @Test
-//    fun check_navigation_to_notifications(){
-//
-//        // Crear el NavController de prueba
-//        val navController = TestNavHostController(ApplicationProvider.getApplicationContext()).apply {
-//            CoroutineScope(Dispatchers.IO).launch {
-//                withContext(Dispatchers.Main) {
-//                    setGraph(R.navigation.main_nav_graph)
-//                }
-//            }
-//
-//
-//        }
-//
-//        // Lanza el Fragment usando la función launchFragmentInHiltContainer
-//        launchFragmentInHiltContainer<HomeFragment>{
-//            // Configurar NavController dentro de este bloque
-//            InstrumentationRegistry.getInstrumentation().runOnMainSync {
-//                Navigation.setViewNavController(requireView(), navController)
-//            }
-//        }
-//
-//        // Haz clic en el elemento del BottomNavigationView
-//        onView(withId(R.id.marsFragment)).perform(click())
-//
-//        // Verifica que el destino actual es el esperado
-//        assertEquals(R.id.marsFragment, navController.currentDestination?.id)
-//    }
+    @Test
+    fun when_click_in_expand_button_the_text_is_showed(){
+        // Navega a NotificationsFragment a través del BottomNavigationView
+        onView(withId(R.id.marsFragment))
+            .perform(click())
+
+        onView(isRoot()).perform(waitFor(5000))
+
+        // Espera hasta que `rvNotifications` sea visible
+        onView(withId(R.id.rvNotifications))
+            .check(matches(isDisplayed()))
+
+        // Realiza scroll hasta el primer elemento y haz click en `ibExpand`
+        onView(withId(R.id.rvNotifications))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<NotificationsAdapter.ViewHolder>(0, click()))
+
+        // Verifica que `llData` del primer item se muestra después del click
+        onView(withId(R.id.rvNotifications))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<NotificationsAdapter.ViewHolder>(0, clickChildViewWithId(R.id.ibExpand)))
+
+        // Verifica que el contenido expandido es visible
+        onView(withId(R.id.rvNotifications))
+            .perform(RecyclerViewActions.scrollToPosition<NotificationsAdapter.ViewHolder>(0))
+
+        onView(withId(R.id.llData))
+            .check(matches(isDisplayed()))
+    }
+
+    private fun waitFor(millis: Long): ViewAction {
+        return object : ViewAction {
+            override fun getConstraints(): Matcher<View> {
+                return ViewMatchers.isRoot()
+            }
+            override fun getDescription(): String {
+                return "esperar $millis milisegundos"
+            }
+            override fun perform(uiController: UiController, view: View) {
+                uiController.loopMainThreadForAtLeast(millis)
+            }
+        }
+    }
+
+    fun clickChildViewWithId(id: Int): ViewAction {
+        return object : ViewAction {
+            override fun getConstraints(): Matcher<View>? {
+                return null
+            }
+
+            override fun getDescription(): String {
+                return "Click en un hijo específico del ViewHolder"
+            }
+
+            override fun perform(uiController: UiController, view: View) {
+                val v = view.findViewById<View>(id)
+                v.performClick()
+            }
+        }
+    }
 }
