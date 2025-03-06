@@ -36,9 +36,9 @@ class RoversFragment : Fragment(R.layout.fragment_rovers) {
     }
 
     private val roversAdapter : RoversAdapter = RoversAdapter (
-        onDownloadImageOnClick = onDownloadImageOnClick) {
-        viewModel.saveRoversAsFavourite(it)
-    }
+        onDownloadImageOnClick = onDownloadImageOnClick,
+        onFavoriteClick = { photo -> viewModel.saveRoversAsFavourite(photo) }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

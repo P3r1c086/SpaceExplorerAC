@@ -54,6 +54,7 @@
                     tools:text="Id: 12345" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/ibFavorite"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="end"
