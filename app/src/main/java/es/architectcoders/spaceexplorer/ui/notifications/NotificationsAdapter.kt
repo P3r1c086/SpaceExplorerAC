@@ -14,12 +14,12 @@ class NotificationsAdapter :
     ListAdapter<NotificationsItem, NotificationsAdapter.ViewHolder>(basicDiffUtil {
             old, new -> old.messageID == new.messageID }) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationsAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = parent.inflate(R.layout.notification_item, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: NotificationsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val notificationsItem = getItem(position)
         holder.bind(notificationsItem)
     }

@@ -1,6 +1,5 @@
 package es.architectcoders.spaceexplorer.framework.server.notificationsServer
 
-import es.architectcoders.domain.NotificationsItem
 import retrofit2.http.GET
 import retrofit2.http.Query
 

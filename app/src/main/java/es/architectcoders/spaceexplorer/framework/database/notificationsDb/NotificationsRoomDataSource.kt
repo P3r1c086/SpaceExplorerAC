@@ -3,7 +3,6 @@ package es.architectcoders.spaceexplorer.framework.database.notificationsDb
 import es.architectcoders.data.datasource.NotificationsLocalDataSource
 import es.architectcoders.domain.Error
 import es.architectcoders.domain.NotificationsItem
-import es.architectcoders.spaceexplorer.framework.database.notificationsDb.NotificationsItemEntity
 import es.architectcoders.spaceexplorer.framework.tryCall
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -22,10 +22,10 @@ import java.util.Calendar
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-@HiltAndroidTest//para que los test funcionen con hilt necesito esta anotacion
+@HiltAndroidTest
 class RoversInstrumentationTest {
 
-    @get:Rule(order = 0)//primero que se configure hilt
+    @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)//con el this le pasamos la clase
 
     @get:Rule(order = 1)

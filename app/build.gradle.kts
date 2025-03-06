@@ -96,7 +96,6 @@ dependencies {
     kapt(Libs.AndroidX.Room.compiler)
     // Coroutines
     implementation(Libs.Kotlin.Coroutines.core)
-    //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("androidx.activity:activity-ktx:1.8.2")
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
@@ -167,8 +166,6 @@ dependencies {
     testImplementation(project(":appTestShared"))
     testImplementation(project(":data"))
     testImplementation(project(":usecases"))
-//    androidTestImplementation("androidx.test.ext:junit-ktx:1.1.5")
-//    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
     androidTestImplementation(project(":appTestShared"))
 
 }

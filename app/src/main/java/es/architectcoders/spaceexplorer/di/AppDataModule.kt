@@ -2,7 +2,6 @@ package es.architectcoders.spaceexplorer.di
 
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import es.architectcoders.data.datasource.ApodLocalDataSource

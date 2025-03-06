@@ -5,10 +5,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import es.architectcoders.spaceexplorer.BuildConfig
 import es.architectcoders.spaceexplorer.R
-import es.architectcoders.spaceexplorer.framework.server.apodServer.ApodApiClient
 import es.architectcoders.spaceexplorer.framework.server.NasaInterceptor
+import es.architectcoders.spaceexplorer.framework.server.apodServer.ApodApiClient
 import es.architectcoders.spaceexplorer.framework.server.notificationsServer.NotificationsApiClient
 import es.architectcoders.spaceexplorer.framework.server.roverServer.RoversApiClient
 import okhttp3.OkHttpClient
