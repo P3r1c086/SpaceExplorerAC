@@ -86,7 +86,7 @@ private fun saveBitmapToGallery(bitmap: Bitmap, context: Context) {
 
     outputStream?.use {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-        Toast.makeText(context, "Imagen guardada en la galería", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, R.string.save_image, Toast.LENGTH_SHORT).show()
     }
 }
 

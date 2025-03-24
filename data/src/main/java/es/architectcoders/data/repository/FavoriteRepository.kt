@@ -12,26 +12,16 @@ import kotlinx.coroutines.flow.merge
 import javax.inject.Inject
 
 class FavoriteRepository @Inject constructor(
-    private val RoversLocalDataSource: RoversLocalDataSource,
-    private val ApodLocalDataSource: ApodLocalDataSource
+    private val roversLocalDataSource: RoversLocalDataSource,
+    private val apodLocalDataSource: ApodLocalDataSource
 ){
 
-    fun getFavoriteList(): Flow<Flow<List<NasaItem>>> {
-        val allFavoritesApods: Flow<List<Apod>> = ApodLocalDataSource.getFavoriteApods
-        val allFavoritesRovers: Flow<List<Photo>> = RoversLocalDataSource.getFavoritePhoto
+    fun getFavoriteList(): Flow<List<NasaItem>> {
+        val allFavoritesApods: Flow<List<Apod>> = apodLocalDataSource.getFavoriteApods
+        val allFavoritesRovers: Flow<List<Photo>> = roversLocalDataSource.getFavoritePhoto
 
-        return merge(flowOf(allFavoritesApods, allFavoritesRovers))
+        return combine(allFavoritesApods, allFavoritesRovers) { apods, rovers ->
+            (apods + rovers).sortedByDescending { it.date }
+        }
     }
-
-//    fun getFavoriteList(): Flow<List<NasaItem>> {
-//        val allFavoritesApods: Flow<List<Apod>> = ApodLocalDataSource.getFavoriteApods
-//        val allFavoritesRovers: Flow<List<Photo>> = RoversLocalDataSource.getFavoritePhoto
-//
-//        return combine(allFavoritesApods, allFavoritesRovers) { apods, rovers ->
-//            val combinedFavorites = mutableListOf<NasaItem>()
-//            combinedFavorites.addAll(apods)
-//            combinedFavorites.addAll(rovers)
-//            combinedFavorites
-//        }
-//    }
 }

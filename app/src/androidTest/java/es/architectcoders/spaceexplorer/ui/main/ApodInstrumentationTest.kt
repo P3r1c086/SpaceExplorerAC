@@ -1,25 +1,19 @@
 package es.architectcoders.spaceexplorer.ui.main
 
 import android.view.View
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.AccessibilityChecks
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import androidx.test.espresso.matcher.ViewMatchers.isSelected
 import androidx.test.espresso.matcher.ViewMatchers.withChild
-import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withParent
-import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -30,31 +24,24 @@ import es.architectcoders.spaceexplorer.R
 import es.architectcoders.spaceexplorer.apptestshared.defaultFakeApodEntity
 import es.architectcoders.spaceexplorer.apptestshared.defaultFakeApodEntity2
 import es.architectcoders.spaceexplorer.data.server.MockWebServerRule
-import es.architectcoders.spaceexplorer.data.server.fromJson
 import es.architectcoders.spaceexplorer.framework.database.apodDb.ApodDao
 import es.architectcoders.spaceexplorer.ui.MainActivity
-import es.architectcoders.spaceexplorer.ui.common.Constants
-import es.architectcoders.spaceexplorer.ui.home.HomeFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import okhttp3.mockwebserver.MockResponse
-import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.Matcher
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.text.SimpleDateFormat
-import java.util.Calendar
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-@HiltAndroidTest//para que los test funcionen con hilt necesito esta anotacion
+@HiltAndroidTest
 class ApodInstrumentationTest {
 
-    @get:Rule(order = 0)//se configura hilt
+    @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)//con el this le pasamos la clase
 
     @get:Rule(order = 1)
@@ -160,7 +147,7 @@ class ApodInstrumentationTest {
         apodDao.insertApod(apod2)
 
         // When
-        val result = apodDao.getAllApods().first() //recolecto el flujo, usando `first()` para obtener el valor actual
+        val result = apodDao.getAllApods().first()
 
         // Then
         assertEquals(listOf(apod1, apod2), result)
@@ -181,54 +168,50 @@ class ApodInstrumentationTest {
         })
         return tag
     }
+
     @Test
-    fun when_click_in_favorite_the_icon_change(){
-        onView(allOf(withId(R.id.ivApodFav),
-            withTagValue(`is`(Constants.NOT_FAVORITE_TAG)),
-            withContentDescription("Favourite")
-        ))
-            .check(matches(isNotChecked()))
-//        // Verifica que el botón comienza en el estado inicial (no favorito)
-//        onView(withId(R.id.ivApodFav))
-//            .check(matches(withTagValue(`is`(Constants.NOT_FAVORITE_TAG)))) // Este "tag" es un ejemplo. Usar un recurso o atributo identificable.
-//
-//        // Simula el click en el botón de favorito
-//        onView(withId(R.id.ivApodFav)).perform(click())
-//
-//        // Verifica que el botón ha cambiado al estado de favorito
-//        onView(withId(R.id.ivApodFav))
-//            .check(matches(withTagValue(`is`(Constants.FAVORITE_TAG))))  // Verifica que el estado cambió
+    fun when_click_in_favorite_the_icon_change() {
+        // Espera hasta que la UI termine de cargar
+        onView(isRoot()).perform(waitFor(5000))
+
+        onView(withId(R.id.cvApod))
+            .check(matches(isDisplayed()))
+
+        onView(withId(R.id.ivApodFav))
+            .check(matches(isDisplayed()))
+            .perform(click())
+
+        onView(withId(R.id.ivApodFav))
+            .check(matches(isSelected()))
     }
 
     @Test
     fun testBottomNavigation() {
         // Verifica que la BottomNavigationView esté visible
         onView(withChild(withId(R.id.bottom_navigation) ))
-            .check(matches(ViewMatchers.isDisplayed()))
-        // Verifica que el primer item esté seleccionado al iniciar
-//        onView(allOf(withId(R.id.homeFragment),withParent(withId(R.id.bottom_navigation) ))  )
-//            .check(matches(ViewMatchers.isDisplayed()))
-        onView(withId(R.id.homeFragment))
-            .check(matches(ViewMatchers.isDisplayed()))
+            .check(matches(isDisplayed()))
 
-        // Navega al segundo item (por ejemplo, "Dashboard")
+        // Verifica que el primer item esté seleccionado al iniciar
+        onView(withId(R.id.homeFragment))
+            .check(matches(isDisplayed()))
+
+        // Navega al segundo item ("Rovers")
         onView(withId(R.id.roversFragment))
             .perform(click())
 
         // Verifica que el segundo item esté seleccionado
         onView(withId(R.id.roversFragment))
-            .check(matches(ViewMatchers.isDisplayed()))
+            .check(matches(isDisplayed()))
 
-        // Navega al tercer item (por ejemplo, "Notifications")
+        // Navega al tercer item ("Notifications")
         onView(withId(R.id.marsFragment))
             .perform(click())
 
         // Verifica que el tercer item esté seleccionado
         onView(withId(R.id.marsFragment))
-            .check(matches(ViewMatchers.isDisplayed()))
+            .check(matches(isDisplayed()))
     }
 }
-
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest

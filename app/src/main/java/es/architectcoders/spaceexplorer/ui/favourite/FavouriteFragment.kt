@@ -20,12 +20,6 @@ class FavouriteFragment : Fragment(R.layout.fragment_favourite) {
 
     private val favouriteAdapter : FavouriteAdapter = FavouriteAdapter()
 
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-//    ): View? {
-//        return inflater.inflate(R.layout.fragment_favourite, container, false)
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentFavouriteBinding.bind(view).apply {
@@ -42,6 +36,6 @@ class FavouriteFragment : Fragment(R.layout.fragment_favourite) {
     }
     override fun onResume() {
         super.onResume()
-        viewModel.loadData() // Llama a la lógica que estaba en init para recargar datos
+        viewModel.loadData()
     }
 }

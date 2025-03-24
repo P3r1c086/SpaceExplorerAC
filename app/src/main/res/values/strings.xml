@@ -19,4 +19,5 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_retry">Try again</string>
     <string name="permission_denied">You must acept the permission.</string>
+    <string name="save_image">Image saved successfully.</string>
 </resources>

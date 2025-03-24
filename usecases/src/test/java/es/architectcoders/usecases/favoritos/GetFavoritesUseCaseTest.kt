@@ -29,11 +29,11 @@ class GetFavoritesUseCaseTest {
 
     @Test
     fun `Invoke returns merged favorite items`() = runBlocking {
-        // Configuro el mock para devolver un Flow que emite otro Flow con la lista combinada de favoritos
-        whenever(favoriteRepository.getFavoriteList()).thenReturn(flowOf(flowOf(listOf(sampleApod, samplePhoto))))
+        // Configuro el mock para devolver un Flow que emite la lista combinada de favoritos
+        whenever(favoriteRepository.getFavoriteList()).thenReturn(flowOf(listOf(sampleApod, samplePhoto)))
 
         // Ejecuto el caso de uso y recogo el primer valor emitido
-        val result = getFavoritesUseCase().first().first()
+        val result = getFavoritesUseCase().first()
 
         // Verifico que el resultado sea la lista mergeada esperada
         assertEquals(listOf(sampleApod, samplePhoto), result)
