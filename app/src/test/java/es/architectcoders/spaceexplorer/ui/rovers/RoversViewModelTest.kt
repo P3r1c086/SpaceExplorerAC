@@ -81,7 +81,7 @@ class RoversViewModelTest {
     @Test
     fun `Photos are requested when UI screen starts`() = runTest {
         vm = buildViewModel()
-        runCurrent()// wait for coroutines to finish
+        runCurrent()
 
         verify(requestRoversUseCase).invoke()
     }
@@ -155,7 +155,7 @@ class RoversViewModelTest {
 
         // When
         vm.retry()
-        runCurrent()// wait for coroutines to finish
+        runCurrent()
         // Then
         verify(requestRoversUseCase, times(2)).invoke()
     }

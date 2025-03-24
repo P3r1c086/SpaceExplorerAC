@@ -57,7 +57,6 @@ class FavoriteRepositoryTest {
 
     @Before
     fun setUp() {
-        // Configura las respuestas simuladas para los flujos de datos favoritos
         whenever(apodLocalDataSource.getFavoriteApods).thenReturn(flowOf(listOf(sampleApod)))
         whenever(roversLocalDataSource.getFavoritePhoto).thenReturn(flowOf(listOf(samplePhoto)))
 
@@ -66,14 +65,9 @@ class FavoriteRepositoryTest {
 
     @Test
     fun `getFavoriteList returns combined favorite items`() = runBlocking {
-        // Recolectamos los elementos combinados de getFavoriteList()
         val favoriteItems = favoriteRepository.getFavoriteList().first()
 
-        // Verificamos que los resultados sean los esperados
-        val expectedItems = listOf(
-            sampleApod,
-            samplePhoto
-        )
+        val expectedItems = listOf(sampleApod, samplePhoto)
 
         assertEquals(expectedItems, favoriteItems)
     }

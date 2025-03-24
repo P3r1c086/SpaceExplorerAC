@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class NotificationsItemEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,//included for me
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val messageIssueTime: String,
     val messageID: String,
     val messageBody: String,

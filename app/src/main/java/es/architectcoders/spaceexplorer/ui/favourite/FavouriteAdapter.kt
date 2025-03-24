@@ -63,7 +63,6 @@ class FavouriteAdapter :
                 }
                 oldItem is Apod && newItem is Apod -> {
                     oldItem.id == newItem.id && oldItem.title == newItem.title
-                    // Asegúrate de agregar cualquier otro campo relevante que quieras comparar.
                 }
                 else -> false
             }

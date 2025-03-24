@@ -76,6 +76,6 @@ class RoversFragment : Fragment(R.layout.fragment_rovers) {
 
     override fun onResume() {
         super.onResume()
-        viewModel.loadData() // Llama a la lógica que estaba en init para recargar datos
+        viewModel.loadData()
     }
 }

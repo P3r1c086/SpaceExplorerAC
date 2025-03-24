@@ -1,13 +1,9 @@
 package es.architectcoders.spaceexplorer.ui.main
 
-import android.view.View
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -28,7 +24,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.hamcrest.Matcher
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -53,7 +48,7 @@ class NotificationsInstrumentationTest {
 
     @Before
     fun setUp(){
-        // Configura el Dispatcher principal para que use TestCoroutineDispatcher
+        // Configuro el Dispatcher principal para que use TestCoroutineDispatcher
         Dispatchers.setMain(testDispatcher)
         hiltRule.inject()
     }
@@ -115,36 +110,5 @@ class NotificationsInstrumentationTest {
 
         onView(withId(R.id.llData))
             .check(matches(isDisplayed()))
-    }
-
-    private fun waitFor(millis: Long): ViewAction {
-        return object : ViewAction {
-            override fun getConstraints(): Matcher<View> {
-                return ViewMatchers.isRoot()
-            }
-            override fun getDescription(): String {
-                return "esperar $millis milisegundos"
-            }
-            override fun perform(uiController: UiController, view: View) {
-                uiController.loopMainThreadForAtLeast(millis)
-            }
-        }
-    }
-
-    fun clickChildViewWithId(id: Int): ViewAction {
-        return object : ViewAction {
-            override fun getConstraints(): Matcher<View>? {
-                return null
-            }
-
-            override fun getDescription(): String {
-                return "Click en un hijo específico del ViewHolder"
-            }
-
-            override fun perform(uiController: UiController, view: View) {
-                val v = view.findViewById<View>(id)
-                v.performClick()
-            }
-        }
     }
 }

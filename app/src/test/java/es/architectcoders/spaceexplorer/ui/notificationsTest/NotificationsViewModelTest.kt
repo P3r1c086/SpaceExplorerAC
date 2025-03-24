@@ -82,7 +82,7 @@ class NotificationsViewModelTest{
         // When(lo que estas testeando)
 
         // Then(resultados esperados)
-        runCurrent()// wait for coroutines to finish
+        runCurrent()
         verify(requestNotificationsUseCase).invoke()
     }
 
@@ -128,7 +128,7 @@ class NotificationsViewModelTest{
 
         // When
         vm.retry()
-        runCurrent()// wait for coroutines to finish
+        runCurrent()
         // Then
         verify(requestNotificationsUseCase, times(2)).invoke()
     }

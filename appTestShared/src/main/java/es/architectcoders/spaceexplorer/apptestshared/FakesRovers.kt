@@ -61,10 +61,10 @@ class FakeRoversLocalDataSource : RoversLocalDataSource {
     override suspend fun isRoversEmpty() = getPhoto.value.isEmpty()
 }
 
-//class FakeRoversRemoteDataSource : RoversRemoteDataSource {
-//
-//    var photos = defaultFakePhotos
-//
-//    override suspend fun getRovers(date: Calendar) = photos.right()
-//}
+class FakeRoversRemoteDataSource : RoversRemoteDataSource {
+
+    var photos = defaultFakePhotos
+
+    override suspend fun getRovers(date: Calendar) = photos.right()
+}
 
